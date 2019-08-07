@@ -9,7 +9,7 @@ const {
 	DATABASE_DIALECT
 } = process.env;
 
-module.exports = new Sequelize(DATABASE_NAME, DATABASE_USERNAME, DATABASE_PASSWORD, {
+const db = new Sequelize(DATABASE_NAME, DATABASE_USERNAME, DATABASE_PASSWORD, {
 	host: DATABASE_HOSTNAME,
 	dialect: DATABASE_DIALECT,
 	port: DATABASE_PORT,
@@ -19,3 +19,13 @@ module.exports = new Sequelize(DATABASE_NAME, DATABASE_USERNAME, DATABASE_PASSWO
 		sequelize: Sequelize
 	}
 })
+
+db.authenticate()
+	.then(() => {
+		console.log('Connection has been established successfully.');
+	})
+	.catch(err => {
+		console.error('Unable to connect to the database:', err);
+	});
+
+module.exports = db

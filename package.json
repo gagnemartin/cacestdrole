@@ -4,7 +4,7 @@
   "description": "Ça c'est drôle - API",
   "main": "app.js",
   "scripts": {
-    "dev": "nodemon -r dotenv/config --experimental-modules app.js",
+    "dev": "nodemon -r dotenv/config app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Martin Gagné",

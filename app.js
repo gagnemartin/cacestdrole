@@ -6,22 +6,6 @@ const db = require('./config/database')
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op
 
-db.authenticate()
-	.then(() => {
-		console.log('Connection has been established successfully.');
-	})
-	.catch(err => {
-		console.error('Unable to connect to the database:', err);
-	});
-
-
-User.findOne({
-	where: { email: 'martin_gagne@outlook.com' },
-	include: [Post]
-})
-	.then(users => {
-		console.log(users)
-	})
 const app = express()
 
 
