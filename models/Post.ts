@@ -48,7 +48,10 @@ const attributes = {
 
 const options = {
 	sequelize: db,
-	modelName: 'post'
+	modelName: 'post',
+	defaultScope: {
+		where: { visible: 1, online: 1 }
+	}
 }
 
 Post.init(attributes, options)

@@ -22,14 +22,7 @@ class PostController
      */
     index(req: Request, res: Response)
     {
-        const where: any = { online: 1, visible: 1 }
-
-        if (req.params.hasOwnProperty('lastId') && !isNaN(parseInt(req.params.lastId))) {
-            where['id'] = { [Op.lt]: parseInt(req.params.lastId) }
-        }
-
-        Post.findAll({
-            where: where,
+        let options: any = {
             order: [
                 [ 'created', 'DESC' ]
             ],
@@ -37,7 +30,13 @@ class PostController
                 model: User,
             }],
             limit: 10
-        })
+        }
+
+        if (req.params.hasOwnProperty('lastId') && !isNaN(parseInt(req.params.lastId))) {
+            options.where.id = { [Op.lt]: parseInt(req.params.lastId) }
+        }
+
+        Post.findAll(options)
             .then((posts: Array<Object>) => {
                 if (posts.length === 0) {
                     throw new Error('Not found')
@@ -72,7 +71,7 @@ class PostController
                     { model: Tag },
                 ]
         })
-            .then((post: Object|null) => {
+            .then((post: any) => {
                 if(!post) {
                     throw new Error('Not found')
                 }
