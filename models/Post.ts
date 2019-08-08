@@ -12,6 +12,7 @@ class Post extends Model {
 	public online!: number
 	public visible!: number
 	public views!: number
+	public cateogry_id!: number
 }
 
 const attributes = {
@@ -47,8 +48,7 @@ const attributes = {
 
 const options = {
 	sequelize: db,
-	modelName: 'post',
-	underscored: true
+	modelName: 'post'
 }
 
 Post.init(attributes, options)

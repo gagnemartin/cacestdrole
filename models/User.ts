@@ -23,8 +23,7 @@ const attributes = {
 
 const options = {
 	sequelize: db,
-	modelName: 'user',
-	underscored: true
+	modelName: 'user'
 }
 
 User.init(attributes, options)

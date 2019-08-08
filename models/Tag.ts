@@ -2,7 +2,7 @@ import { Model, DataTypes } from 'sequelize'
 import db from '../config/database'
 import Post from './Post'
 
-class Category extends Model {
+class Tag extends Model {
     public id?: number
     public name!: string
     public slug!: string
@@ -22,12 +22,13 @@ const attributes = {
 
 const options = {
     sequelize: db,
-    modelName: 'category'
+    modelName: 'tag',
+    createdAt: false
 }
 
-Category.init(attributes, options)
+Tag.init(attributes, options)
 
-Category.hasMany(Post, { foreignKey: 'category_id' })
-Post.belongsTo(Category, { foreignKey: 'category_id' })
+Tag.belongsToMany(Post, { through: 'posts_tags', foreignKey: 'tag_id' })
+Post.belongsToMany(Tag, { through: 'posts_tags', foreignKey: 'post_id' })
 
-export default Category
+export default Tag

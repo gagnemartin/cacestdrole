@@ -3,6 +3,7 @@ import { Op } from 'sequelize'
 import Post from '../models/Post'
 import User from '../models/User'
 import Category from '../models/Category'
+import Tag from '../models/Tag'
 
 class PostController
 {
@@ -68,6 +69,7 @@ class PostController
             include: [
                     { model: Category },
                     { model: User },
+                    { model: Tag },
                 ]
         })
             .then((post: Object|null) => {
