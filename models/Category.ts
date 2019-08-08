@@ -6,6 +6,7 @@ class Category extends Model {
     public id?: number
     public name!: string
     public slug!: string
+    public post_count!: number
 }
 
 const attributes = {
@@ -16,6 +17,10 @@ const attributes = {
     },
     slug: {
         type: DataTypes.STRING,
+        allowNull: false
+    },
+    post_count: {
+        type: DataTypes.INTEGER,
         allowNull: false
     },
 }

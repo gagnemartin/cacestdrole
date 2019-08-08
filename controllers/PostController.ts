@@ -84,6 +84,12 @@ class PostController
             })
     }
 
+    /**
+     * Return status errors
+     *
+     * @param thrown
+     * @param res
+     */
     private handleError(thrown: any, res: Response)
     {
         if (thrown.message === 'Not found') {
