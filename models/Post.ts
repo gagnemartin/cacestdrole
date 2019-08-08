@@ -1,10 +1,12 @@
-import { Sequelize, Model, DataTypes, BuildOptions } from 'sequelize'
+import { Model, DataTypes } from 'sequelize'
 import db from '../config/database'
+import Category from './Category'
 //const User = require('./User')
 
 class Post extends Model {
 	public id!: number
 	public name!: string
+	public slug!: string
 	public content!: string
 	public created!: string
 	public online!: number
@@ -14,6 +16,10 @@ class Post extends Model {
 
 const attributes = {
 	name: {
+		type: DataTypes.STRING,
+		allowNull: false
+	},
+	slug: {
 		type: DataTypes.STRING,
 		allowNull: false
 	},

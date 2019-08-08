@@ -1,18 +1,34 @@
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response } from 'express'
+import { Op } from 'sequelize'
 import Post from '../models/Post'
-import User from "../models/User"
+import User from '../models/User'
+import Category from '../models/Category'
 
-class PostController {
+class PostController
+{
     constructor()
     {
         this.index = this.index.bind(this)
         this.view = this.view.bind(this)
+        this.handleError = this.handleError.bind(this)
     }
 
+    /**
+     * List the Posts with a pagination
+     *
+     * @param req
+     * @param res
+     */
     index(req: Request, res: Response)
     {
+        const where: any = { online: 1, visible: 1 }
+
+        if (req.params.hasOwnProperty('lastId') && !isNaN(parseInt(req.params.lastId))) {
+            where['id'] = { [Op.lt]: parseInt(req.params.lastId) }
+        }
+
         Post.findAll({
-            where: { online: 1, visible: 1 },
+            where: where,
             order: [
                 [ 'created', 'DESC' ]
             ],
@@ -22,15 +38,23 @@ class PostController {
             limit: 10
         })
             .then((posts: Array<Object>) => {
+                if (posts.length === 0) {
+                    throw new Error('Not found')
+                }
+
                 res.send(posts)
             })
             .catch((thrown: any) => {
-                res.send({
-                    error: thrown.name
-                })
+                this.handleError(thrown, res)
             })
     }
 
+    /**
+     * View a single Post
+     *
+     * @param req
+     * @param res
+     */
     view(req: Request, res: Response)
     {
         const id = parseInt(req.params.id)
@@ -40,7 +64,11 @@ class PostController {
         }
 
         Post.findOne({
-            where: { id: id }
+            where: { id: id },
+            include: [
+                    { model: Category },
+                    { model: User },
+                ]
         })
             .then((post: Object|null) => {
                 if(!post) {
@@ -50,12 +78,18 @@ class PostController {
                 res.send(post)
             })
             .catch((thrown: any) => {
-                if (thrown.message === 'Not found') {
-                    res.sendStatus(404)
-                } else {
-                    res.sendStatus(500)
-                }
+                this.handleError(thrown, res)
             })
+    }
+
+    private handleError(thrown: any, res: Response)
+    {
+        if (thrown.message === 'Not found') {
+            res.sendStatus(404)
+        } else {
+            console.error(thrown)
+            res.sendStatus(500)
+        }
     }
 }
 

@@ -1,4 +1,4 @@
-import Express, { Request, Response } from 'express'
+import Express, { NextFunction, Request, Response } from 'express'
 import PostRoutes from './PostsRoutes'
 
 const api = Express()
@@ -7,7 +7,7 @@ const api = Express()
 api.use('/posts', PostRoutes)
 
 // Error handling from throws in Controllers
-api.use(function (err: any, req: Request, res: Response) {
+api.use(function (err: any, req: Request, res: Response, next: NextFunction) {
     if (err.message === 'Not found') {
         res.sendStatus(404)
     }

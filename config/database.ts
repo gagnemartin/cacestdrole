@@ -28,7 +28,9 @@ const db = new Sequelize(DATABASE_NAME, DATABASE_USERNAME, DATABASE_PASSWORD, {
 	dialect: 'mariadb',
 	port: DATABASE_PORT,
 	define: {
-		timestamps: false,
+		createdAt: 'created',
+		updatedAt: false,
+		deletedAt: false,
 		underscored: true,
 	}
 })
