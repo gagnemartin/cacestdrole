@@ -1,5 +1,6 @@
 import { Request, Response } from 'express'
 import Category from '../models/Category'
+import { SendErrorStatus } from "../utils/errors"
 
 class CategoryController
 {
@@ -32,7 +33,7 @@ class CategoryController
                 res.send(categories)
             })
             .catch(thrown => {
-                console.error(thrown)
+                SendErrorStatus(thrown, res)
             })
     }
 }

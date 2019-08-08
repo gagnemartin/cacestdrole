@@ -4,6 +4,7 @@ import Post from '../models/Post'
 import User from '../models/User'
 import Category from '../models/Category'
 import Tag from '../models/Tag'
+import { SendErrorStatus } from "../utils/errors"
 
 class PostController
 {
@@ -11,7 +12,6 @@ class PostController
     {
         this.index = this.index.bind(this)
         this.view = this.view.bind(this)
-        this.handleError = this.handleError.bind(this)
     }
 
     /**
@@ -46,7 +46,7 @@ class PostController
                 res.send(posts)
             })
             .catch((thrown: any) => {
-                this.handleError(thrown, res)
+                SendErrorStatus(thrown, res)
             })
     }
 
@@ -80,24 +80,8 @@ class PostController
                 res.send(post)
             })
             .catch((thrown: any) => {
-                this.handleError(thrown, res)
+                SendErrorStatus(thrown, res)
             })
-    }
-
-    /**
-     * Return status errors
-     *
-     * @param thrown
-     * @param res
-     */
-    private handleError(thrown: any, res: Response)
-    {
-        if (thrown.message === 'Not found') {
-            res.sendStatus(404)
-        } else {
-            console.error(thrown)
-            res.sendStatus(500)
-        }
     }
 }
 
